@@ -1,0 +1,27 @@
+﻿@page "/"
+@inject HttpClient HttpClient
+
+<div class="master-view-container row">
+    <table>
+       <tr>
+        <th>Name</th>
+        <th>Description</th>
+       </tr>
+       @foreach (var row in this.data)
+        {
+           <tr>
+            <th>@row.Name</th>
+            <th>@row.Description</th>
+           </tr>
+        }
+    </table>
+</div>
+
+@code {
+    private AppData[] data = Array.Empty<AppData>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        data = await HttpClient.GetFromJsonAsync<AppData[]>("sample-data/app-data.json") ?? data;
+    }
+}
